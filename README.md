@@ -1,28 +1,34 @@
-# Belvia Transport website
+﻿# Belvia — Meridian website
 
-Complete dependency-free static website with English, Dutch and French pages, dedicated About pages, responsive layouts, local photography assets, route coverage, service selection, accessible forms, a downloadable quote brief and privacy dialog.
+Rebuilt from the selected Meridian concept: cobalt blue, warm off-white and navy; oversized editorial typography; European terminal photography; geographic route map; service columns; navy call to action; company, fleet and team sections; and a validated quote-request download.
 
-## Run
+## Run and build
 
-Requires Node.js 20 or newer. Run `npm start` from this directory and open http://localhost:3000. Run `npm run check` for the JavaScript syntax check and `npm run build` after editing homepage copy to regenerate language and About pages and sitemap. Deploy the contents of `dist` to any static host.
+Requires Node.js 20+. From this folder run `npm start` and open http://localhost:3000. Run `npm run build` to regenerate the six static pages. Run `npm run check` for JavaScript syntax and, while the server is running, `node scripts/check-site.mjs` for page, link, asset, metadata and HTTP checks. No dependency installation is required.
 
-## Business handover
+Deploy `dist/` to a static host. The project preserves its existing Sites identity and private audience.
 
-Belvia is an editorial identity chosen because no company name was supplied. Company registration information, actual contacts, founding history, certifications, fleet specifications and staff identities were not supplied and are not fabricated. Replace the identity and publish verified business details before a public business launch. Images illustrate transport and are not represented as photographs of the actual company fleet or employees. No invented staff profiles, client logos or testimonials are included.
+## Editing
 
-The quote form validates input and creates a UTF-8 text request file locally. It does **not** deliver inquiries to an inbox or create bookings. A real business email or approved submission service is needed to connect direct lead delivery. No quote information is stored by the server. There are no analytics cookies. Language preferences use local storage.
+- `src/index.html`: homepage structure.
+- `src/style.css`: Meridian responsive styles and local font declarations.
+- `src/overrides.json`: current English, Dutch and French copy.
+- `src/translations.json`: retained company and quote translations.
+- `src/previous-index.html`: retained source for company, fleet, team and quote sections, composed by the builder.
+- `src/build-meridian.mjs`: page generation, localized links, geographic map and SEO metadata.
+- `src/app.js`: navigation, service selection, quote download, privacy dialog.
+- `src/asset-prompts.md`: prompts for generated photo assets.
+- `dist/assets/meridian-*.png`: four illustrative photographic assets.
+- `dist/assets/*.woff2`: locally hosted fonts.
 
-## Files
+The map uses Natural Earth country boundaries (public-domain geographic data), projected to SVG at build time. The static pages have dedicated canonical URLs, language alternatives, social metadata, a sitemap and robots.txt. Change the base origin in `src/build-meridian.mjs` when moving to a different domain.
 
-- `dist/index.html`: main content and layout.
-- `dist/style.css`: desktop, tablet, mobile and reduced-motion styles.
-- `dist/app.js`: translations, navigation, quote download and privacy dialog.
-- `build.mjs`: generates search-engine-readable localized and About pages.
-- `server.mjs`: local static server.
-- `.openai/hosting.json`: Sites hosting identity.
+## Business details and inquiry flow
 
-On a domain change, update the `base` URL in `build.mjs` and rebuild. Company-specific structured data is deliberately omitted until real company facts are supplied.
+Belvia remains the temporary identity from the selected concept. No company registration, business email, phone, actual employee details, fleet specifications or certifications were supplied. No staff identities, customer testimonials or business statistics are fabricated. The generated photographs illustrate the chosen design and do not represent verified company employees or vehicles.
+
+The quote form validates required fields and downloads a localized text file. No details are sent to a server or inbox, and a downloaded request is not a confirmed booking. Real company contact details or an approved delivery service are needed for direct inquiry delivery. No analytics, cookies or local-storage tracking are used.
 
 ## Verification
 
-JavaScript syntax and HTTP page/asset responses are checked. Browser automation was unavailable in the delivery session; visual and interactive browser QA is therefore unverified.
+All six pages build. JavaScript syntax checks pass. Static validation checks localized links, anchor targets, headings, metadata, assets and HTTP responses. A browser was unavailable in this session, so visual and interactive browser QA is unverified.

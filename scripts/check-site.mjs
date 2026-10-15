@@ -1,0 +1,8 @@
+import {readFile,stat} from 'node:fs/promises';
+const routes=['/','/nl/','/fr/','/about/','/nl/about/','/fr/about/'];
+const pages=new Map();
+for(const route of routes){const html=await readFile(`dist${route}index.html`,'utf8');pages.set(route,html);if((html.match(/<h1\b/g)||[]).length!==1)throw Error(`${route}: heading count`);if((html.match(/rel="canonical"/g)||[]).length!==1)throw Error(`${route}: canonical count`);if(/\{\{[A-Z]+\}\}/.test(html))throw Error(`${route}: unresolved template`);if(html.includes('undefined'))throw Error(`${route}: undefined content`);const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);if(new Set(ids).size!==ids.length)throw Error(`${route}: duplicate id`);if(!html.includes('id="quoteForm"'))throw Error(`${route}: missing quote form`);}
+let links=0,assets=new Set();
+for(const [route,html] of pages){for(const [,raw] of html.matchAll(/(?:src|href)="([^"]+)"/g)){if(!raw.startsWith('/')&&!raw.startsWith('#'))continue;const url=new URL(raw,'http://localhost'+route);if(url.pathname.startsWith('/assets/')||['/style.css','/app.js'].includes(url.pathname)){await stat('dist'+url.pathname);assets.add(url.pathname);continue;}if(!pages.has(url.pathname))throw Error(`${route}: missing page ${raw}`);if(url.hash&&!pages.get(url.pathname).includes(`id="${url.hash.slice(1)}"`))throw Error(`${route}: missing target ${raw}`);links++;}}
+for(const route of [...routes,'/style.css','/app.js','/sitemap.xml','/robots.txt',...assets]){const response=await fetch('http://localhost:3000'+route);if(!response.ok)throw Error(`${route}: HTTP ${response.status}`);}
+console.log(`Passed: ${routes.length} pages; ${links} links; ${assets.size} assets; localized navigation; page headings; metadata; template completeness; HTTP responses.`);
