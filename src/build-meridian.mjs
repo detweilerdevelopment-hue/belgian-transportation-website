@@ -1,12 +1,10 @@
 import {readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
 const base='https://belvia-transport.detweilerdevelopment.chatgpt.site';
-const previous=await readFile('src/previous-index.html','utf8');
+const previous=await readFile('src/sections.html','utf8');
 let template=await readFile('src/index.html','utf8');
 for(const id of ['about','fleet','team','quote']){
  let section=[...previous.matchAll(/<section\b[\s\S]*?<\/section>/g)].find(m=>m[0].includes(`id="${id}"`))?.[0];
  if(!section)throw Error(`Missing ${id}`);
- if(id==='about')section=section.replace('/assets/port.jpg','/assets/meridian-driver.png').replace('Road transport connecting European destinations','Illustrative portrait of a professional European transport driver');
- if(id==='fleet')section=section.replace('/assets/hero-europe.png','/assets/meridian-road.png');
  template=template.replace(`{{${id.toUpperCase()}}}`,section);
 }
 const geo=JSON.parse(await readFile('src/countries.geojson','utf8'));

@@ -14,7 +14,7 @@ Deploy `dist/` to a static host. The project preserves its existing Sites identi
 - `src/style.css`: Meridian responsive styles and local font declarations.
 - `src/overrides.json`: current English, Dutch and French copy.
 - `src/translations.json`: retained company and quote translations.
-- `src/previous-index.html`: retained source for company, fleet, team and quote sections, composed by the builder.
+- `src/sections.html`: source for company, fleet, team and quote sections, composed by the builder.
 - `src/build-meridian.mjs`: page generation, localized links, geographic map and SEO metadata.
 - `src/app.js`: navigation, service selection, quote download, privacy dialog.
 - `src/asset-prompts.md`: prompts for generated photo assets.
